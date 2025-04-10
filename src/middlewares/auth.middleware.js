@@ -1,0 +1,1 @@
+// verificação de token -- temporário
