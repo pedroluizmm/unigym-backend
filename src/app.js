@@ -1,16 +1,15 @@
-// app.js
 require('dotenv').config();
 const express = require('express');
 const cors    = require('cors');
 
-const authRoutes      = require('./src/routes/auth.routes');
-const usuarioRoutes   = require('./src/routes/usuario.routes');
-const treinoRoutes    = require('./src/routes/treino.routes');
-const exercicioRoutes = require('./src/routes/exercicio.routes');
-const historicoRoutes = require('./src/routes/historico.routes');
-const conquistaRoutes = require('./src/routes/conquista.routes');
-const dicaRoutes      = require('./src/routes/dica.routes');
-const faqRoutes       = require('./src/routes/faq.routes');
+const authRoutes      = require('./routes/auth.routes');
+const usuarioRoutes   = require('./routes/usuario.routes');
+const treinoRoutes    = require('./routes/treino.routes');
+const exercicioRoutes = require('./routes/exercicio.routes');
+const historicoRoutes = require('./routes/historico.routes');
+const conquistaRoutes = require('./routes/conquista.routes');
+const dicaRoutes      = require('./routes/dica.routes');
+const faqRoutes       = require('./routes/faq.routes');
 
 const app = express();
 
