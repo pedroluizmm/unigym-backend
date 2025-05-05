@@ -1,23 +1,57 @@
-exports.listarTreinos = (req, res) => {
-  res.json([]); // lista de treinos
+// src/controllers/treino.controller.js
+const Treino = require('../models/Treino');
+
+exports.listarTreinos = async (req, res) => {
+  try {
+    const treinos = await Treino.find({ usuario: req.user.id });
+    res.json(treinos);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao listar treinos' });
+  }
 };
 
-exports.obterTreino = (req, res) => {
-  const { id } = req.params;
-  res.json({ id, grupamento: 'Peito', data: '2025-04-10' });
+exports.obterTreino = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const treino = await Treino.findById(id);
+    if (!treino) return res.status(404).json({ message: 'Treino não encontrado' });
+    res.json(treino);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao buscar treino' });
+  }
 };
 
-exports.criarTreino = (req, res) => {
-  //salvar novo treino
-  res.status(201).json({ message: 'Treino criado (stub)' });
+exports.criarTreino = async (req, res) => {
+  try {
+    const novo = await Treino.create({ ...req.body, usuario: req.user.id });
+    res.status(201).json(novo);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao criar treino' });
+  }
 };
 
-exports.atualizarTreino = (req, res) => {
-  const { id } = req.params;
-  res.json({ message: `Treino ${id} atualizado (stub)` });
+exports.atualizarTreino = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const atualizado = await Treino.findByIdAndUpdate(id, req.body, { new: true });
+    if (!atualizado) return res.status(404).json({ message: 'Treino não encontrado' });
+    res.json(atualizado);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao atualizar treino' });
+  }
 };
 
-exports.deletarTreino = (req, res) => {
-  const { id } = req.params;
-  res.status(204).end();
+exports.deletarTreino = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Treino.findByIdAndDelete(id);
+    res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao deletar treino' });
+  }
 };

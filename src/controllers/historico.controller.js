@@ -1,17 +1,45 @@
-exports.listarHistorico = (req, res) => {
-  res.json([]); //lista de históricos
+// src/controllers/historico.controller.js
+const Historico = require('../models/Historico');
+
+exports.listarHistorico = async (req, res) => {
+  try {
+    const list = await Historico.find({ usuario: req.user.id });
+    res.json(list);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao listar histórico' });
+  }
 };
 
-exports.obterHistorico = (req, res) => {
-  const { id } = req.params;
-  res.json({ id, data: '2025-04-01', tempoTotal: '45m' });
+exports.obterHistorico = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const h = await Historico.findById(id);
+    if (!h) return res.status(404).json({ message: 'Histórico não encontrado' });
+    res.json(h);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao buscar histórico' });
+  }
 };
 
-exports.criarHistorico = (req, res) => {
-  res.status(201).json({ message: 'Histórico criado (stub)' });
+exports.criarHistorico = async (req, res) => {
+  try {
+    const novo = await Historico.create({ ...req.body, usuario: req.user.id });
+    res.status(201).json(novo);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao criar histórico' });
+  }
 };
 
-exports.deletarHistorico = (req, res) => {
-  const { id } = req.params;
-  res.status(204).end();
+exports.deletarHistorico = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Historico.findByIdAndDelete(id);
+    res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao deletar histórico' });
+  }
 };

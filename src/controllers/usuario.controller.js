@@ -1,25 +1,57 @@
-exports.listarUsuarios = (req, res) => {
-  res.json([]); //retornar usuários do DB
+// src/controllers/usuario.controller.js
+const Usuario = require('../models/Usuario');
+
+exports.listarUsuarios = async (req, res) => {
+  try {
+    const usuarios = await Usuario.find();
+    res.json(usuarios);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao listar usuários' });
+  }
 };
 
-exports.obterUsuario = (req, res) => {
-  const { id } = req.params;
-  res.json({ id, nome: 'Usuário Exemplo' });
+exports.obterUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await Usuario.findById(id);
+    if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao buscar usuário' });
+  }
 };
 
-exports.criarUsuario = (req, res) => {
-  //salvar req.body no DB
-  res.status(201).json({ message: 'Usuário criado (stub)' });
+exports.criarUsuario = async (req, res) => {
+  try {
+    const novo = await Usuario.create(req.body);
+    res.status(201).json(novo);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao criar usuário' });
+  }
 };
 
-exports.atualizarUsuario = (req, res) => {
-  const { id } = req.params;
-  //atualizar no DB
-  res.json({ message: `Usuário ${id} atualizado (stub)` });
+exports.atualizarUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const atualizado = await Usuario.findByIdAndUpdate(id, req.body, { new: true });
+    if (!atualizado) return res.status(404).json({ message: 'Usuário não encontrado' });
+    res.json(atualizado);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao atualizar usuário' });
+  }
 };
 
-exports.deletarUsuario = (req, res) => {
-  const { id } = req.params;
-  //remover do DB
-  res.status(204).end();
+exports.deletarUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Usuario.findByIdAndDelete(id);
+    res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao deletar usuário' });
+  }
 };
