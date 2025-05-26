@@ -1,4 +1,3 @@
-// src/controllers/usuario.controller.js
 const Usuario = require('../models/Usuario');
 
 exports.listarUsuarios = async (req, res) => {
@@ -55,3 +54,27 @@ exports.deletarUsuario = async (req, res) => {
     res.status(500).json({ message: 'Erro ao deletar usuário' });
   }
 };
+
+exports.buscarPorEmail = async (req, res) => {
+  try {
+    const email = decodeURIComponent(req.query.email)
+    if (!email) {
+      return res.status(400).json({ message: "Email é obrigatório" });
+    }
+
+    const usuario = await Usuario.findOne({ email });
+
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuário não encontrado" });
+    }
+
+    res.json({
+      ...usuario.toObject(),
+      statusValidacao: !!usuario.statusValidacao
+    });
+  } catch (err) {
+    console.error("Erro buscarPorEmail:", err);
+    res.status(500).json({ message: "Erro ao buscar usuário por e-mail" });
+  }
+}
+

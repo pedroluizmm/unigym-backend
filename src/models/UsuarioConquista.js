@@ -1,9 +1,11 @@
-const { Schema, model, Types } = require('mongoose');
+// src/models/UsuarioConquista.js
 
-const UsuarioConquistaSchema = new Schema({
-  usuario:       { type: Types.ObjectId, ref: 'Usuario', required: true },
-  conquista:     { type: Types.ObjectId, ref: 'Conquista', required: true },
-  dataConquista: { type: Date, default: Date.now }
+const mongoose = require('mongoose');
+
+const schema = new mongoose.Schema({
+  usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+  conquista: { type: mongoose.Schema.Types.ObjectId, ref: 'Conquista', required: true },
+  data: { type: Date, default: Date.now }
 });
 
-module.exports = model('UsuarioConquista', UsuarioConquistaSchema);
+module.exports = mongoose.model('UsuarioConquista', schema);

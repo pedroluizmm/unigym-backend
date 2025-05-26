@@ -3,7 +3,7 @@ const jwt    = require('jsonwebtoken');
 const Usuario = require('../models/Usuario');
 
 const JWT_SECRET   = process.env.JWT_SECRET;
-const TOKEN_EXPIRES = '1h';
+const TOKEN_EXPIRES = '3h';
 
 function gerarToken(user) {
   return jwt.sign(
@@ -22,6 +22,9 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: 'E-mail já cadastrado' });
     }
 
+    if (!user.statusValidacao) {
+  return res.status(403).json({ message: "E-mail ainda não validado presencialmente." });
+  }
  
     const user = new Usuario({
       nome,
