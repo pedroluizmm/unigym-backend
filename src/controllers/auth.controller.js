@@ -12,6 +12,16 @@ function gerarToken(user) {
     { expiresIn: TOKEN_EXPIRES }
   );
 }
+ 
+exports.login = async (req, res) => {
+  const { email, senha } = req.body;
+  const user = await Usuario.findOne({ email });
+  if (!user || !(await user.comparePassword(senha))) {
+    return res.status(400).json({ message: 'Credenciais inválidas' });
+  }
+  const token = gerarToken(user);
+  res.json({ token });
+};
 
 exports.register = async (req, res) => {
   try {
@@ -48,7 +58,6 @@ exports.login = async (req, res) => {
   try {
     const { email, senha } = req.body;
     const user = await Usuario.findOne({ email });
-    // se não existir ou se a senha não bater, rejeita
     if (!user || !(await user.comparePassword(senha))) {
       return res.status(400).json({ message: 'Credenciais inválidas' });
     }

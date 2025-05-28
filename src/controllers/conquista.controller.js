@@ -1,4 +1,3 @@
-// src/controllers/conquista.controller.js
 const Conquista = require('../models/Conquista');
 
 exports.listarConquistas = async (req, res) => {

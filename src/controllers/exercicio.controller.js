@@ -1,4 +1,3 @@
-// src/controllers/exercicio.controller.js
 const Exercicio = require('../models/Exercicio');
 
 exports.listarExercicios = async (req, res) => {

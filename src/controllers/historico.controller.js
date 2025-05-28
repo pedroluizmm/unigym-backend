@@ -1,9 +1,13 @@
-// src/controllers/historico.controller.js
 const Historico = require('../models/Historico');
 
 exports.listarHistorico = async (req, res) => {
   try {
-    const list = await Historico.find({ usuario: req.user.id });
+    const list = await Historico
+      .find({ usuario: req.user.id })
+      .populate({
+        path: 'treino',
+        select: 'nome exercicios tempo calorias' 
+      });
     res.json(list);
   } catch (err) {
     console.error(err);

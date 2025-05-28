@@ -1,5 +1,3 @@
-// src/models/UsuarioConquista.js
-
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({

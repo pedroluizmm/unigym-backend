@@ -1,5 +1,3 @@
-// src/routes/usuarioConquista.routes.js
-
 const express = require('express');
 const router = express.Router();
 

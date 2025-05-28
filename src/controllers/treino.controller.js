@@ -1,4 +1,3 @@
-// src/controllers/treino.controller.js
 const Treino = require('../models/Treino');
 
 exports.listarTreinos = async (req, res) => {

@@ -1,4 +1,3 @@
-// src/controllers/dica.controller.js
 const Dica = require('../models/Dica');
 
 exports.listarDicas = async (req, res) => {

@@ -1,5 +1,3 @@
-// src/controllers/usuarioValidation.controller.js
-
 const Usuario = require('../models/Usuario');
 
 async function validarUsuario(req, res) {

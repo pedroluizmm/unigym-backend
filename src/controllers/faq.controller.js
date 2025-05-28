@@ -1,4 +1,3 @@
-// src/controllers/faq.controller.js
 const Faq = require('../models/Faq');
 
 exports.listarFaqs = async (req, res) => {

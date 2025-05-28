@@ -1,4 +1,3 @@
-// src/controllers/usuarioConquista.controller.js
 const UsuarioConquista = require('../models/UsuarioConquista');
 
 async function addConquista(req, res) {
